@@ -8,6 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const prismaService = app.get(PrismaService);
   await prismaService.enableShutdownHooks(app);
+  const port = process.env.PORT || 3001;
 
   const config = new DocumentBuilder()
     .setTitle('Blog API')
@@ -26,6 +27,6 @@ async function bootstrap() {
     ],
 });
 
-  await app.listen(3000);
+  await app.listen(port);
 }
 bootstrap();
