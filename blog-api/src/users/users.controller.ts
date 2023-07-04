@@ -4,6 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import joiValidate from 'src/utils/joiValidator';
 import { createUserSchema, updateUserSchema } from './user.schema';
+import { PublicRoute } from 'src/decorators/public-route.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -14,7 +15,8 @@ export class UsersController {
     if (isNaN(parsedId)) throw new BadRequestException("Invalid id.");
   }
 
-  @Post()
+  @PublicRoute()
+  @Post('register')
   create(@Body() createUserDto: CreateUserDto) {
     joiValidate(createUserSchema, createUserDto);
     return this.usersService.create(createUserDto);
