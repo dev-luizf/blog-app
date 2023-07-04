@@ -36,7 +36,7 @@ export class PostsService {
       data: {
         updatedAt: new Date(),
         ...updatePostDto,
-      }
+      },
     });
   }
 

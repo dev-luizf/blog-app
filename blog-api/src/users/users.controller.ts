@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  BadRequestException,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -12,7 +21,7 @@ export class UsersController {
 
   validateId(id: string) {
     const parsedId = +id;
-    if (isNaN(parsedId)) throw new BadRequestException("Invalid id.");
+    if (isNaN(parsedId)) throw new BadRequestException('Invalid id.');
   }
 
   @PublicRoute()

@@ -7,7 +7,7 @@ import argon2Helper from 'src/utils/argon2Helper';
 export class AuthService {
   constructor(
     private usersService: UsersService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
   ) {}
 
   async validateUser(username: string, pass: string): Promise<any> {
