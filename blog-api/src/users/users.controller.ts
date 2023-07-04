@@ -6,7 +6,7 @@ import joiValidate from 'src/utils/joiValidator';
 import { createUserSchema, updateUserSchema } from './user.schema';
 import { PublicRoute } from 'src/decorators/public-route.decorator';
 
-@Controller('users')
+@Controller()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -22,25 +22,25 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
-  @Get()
+  @Get('users')
   findAll() {
     return this.usersService.findAll();
   }
 
-  @Get(':id')
+  @Get('users/:id')
   findOne(@Param('id') id: string) {
     this.validateId(id);
     return this.usersService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Patch('users/:id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     this.validateId(id);
     joiValidate(updateUserSchema, updateUserDto);
     return this.usersService.update(+id, updateUserDto);
   }
 
-  @Delete(':id')
+  @Delete('users/:id')
   remove(@Param('id') id: string) {
     this.validateId(id);
     return this.usersService.remove(+id);
