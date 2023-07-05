@@ -9,9 +9,10 @@ import ModalViewPost from "./MoldaViewPost";
 
 interface PostsListProps {
   posts: Post[];
+  refreshTable: () => void;
 }
 
-function PostsTable({ posts }: PostsListProps) {
+function PostsTable({ posts, refreshTable }: PostsListProps) {
   if (posts.length === 0) {
     return (
       <div className="flex items-center mt-6 text-center border rounded-lg h-96 dark:border-gray-700">
@@ -25,7 +26,7 @@ function PostsTable({ posts }: PostsListProps) {
           <p className="mt-2 text-gray-500 dark:text-gray-400">
             There is no posts in the blog, write somenthing new!
           </p>
-          <ModalNewPost />
+          <ModalNewPost refreshTable={refreshTable} />
         </div>
       </div>
     );
@@ -91,9 +92,9 @@ function PostsTable({ posts }: PostsListProps) {
                       </td>
                       <td className="px-4 py-4 text-sm whitespace-nowrap">
                         <div className="flex items-center gap-x-6">
-                          <ModalViewPost post={post}/>
-                          <ModalEditPost post={post} />
-                          <ModalDeletePost id={post.id} />
+                          <ModalViewPost post={post} />
+                          <ModalEditPost post={post} refreshTable={refreshTable} />
+                          <ModalDeletePost id={post.id} refreshTable={refreshTable} />
                         </div>
                       </td>
                     </tr>

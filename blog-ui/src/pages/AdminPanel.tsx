@@ -1,4 +1,4 @@
-import PostsList from "../components/PostsTable";
+import PostTable from "../components/PostsTable";
 import getAllPosts from "../services/get/getAllPosts";
 import { Post } from "../interfaces/services";
 import { useEffect, useState } from "react";
@@ -8,6 +8,7 @@ import ModalNewPost from "../components/ModalNewPost";
 
 function AdminPanel() {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [refresh, setRefresh] = useState<boolean>(false);
   const { toast } = useToast();
 
   const fetchAllPosts = async () => {
@@ -36,6 +37,13 @@ function AdminPanel() {
     fetchAllPosts();
   }, []);
 
+  useEffect(() => {
+    if (refresh) {
+      fetchAllPosts();
+      setRefresh(false);
+    }
+  }, [refresh]);
+
   return (
     <>
       <section className="container px-4 mx-auto">
@@ -48,7 +56,7 @@ function AdminPanel() {
             <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">
               Check out the last posts of the blog..
             </p>
-          <ModalNewPost />
+          <ModalNewPost refreshTable={() => setRefresh(true)} />
           </div>
 
         </div>
@@ -71,7 +79,7 @@ function AdminPanel() {
           </div>
         </div>
 
-        <PostsList posts={posts} />
+        <PostTable posts={posts} refreshTable={() => setRefresh(true)} />
       </section>
     </>
   );

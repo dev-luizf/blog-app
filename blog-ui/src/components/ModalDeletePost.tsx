@@ -4,7 +4,12 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import deletePost from "../services/delete/deletePost";
 import { useToast } from "../hooks/useToast";
 
-export default function ModalDeletePost({ id }: { id: number }) {
+interface ModalProps {
+  refreshTable: () => void;
+  id: number;
+}
+
+export default function ModalDeletePost({ id, refreshTable }: ModalProps) {
   const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef(null);
   const { toast } = useToast();
@@ -15,6 +20,7 @@ export default function ModalDeletePost({ id }: { id: number }) {
       toast.success("Post deleted successfully!", {
         toastId: "success",
       });
+      refreshTable();
       setOpen(false);
     } catch (error: any) {
       toast.error(error?.response?.data?.message, {

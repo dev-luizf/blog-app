@@ -3,7 +3,11 @@ import { Dialog, Transition } from "@headlessui/react";
 import newPost from "../services/post/newPost";
 import { useToast } from "../hooks/useToast";
 
-export default function ModalNewPost() {
+interface ModalProps {
+  refreshTable: () => void;
+}
+
+export default function ModalNewPost({ refreshTable }: ModalProps) {
   const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef(null);
   const { toast } = useToast();
@@ -18,6 +22,7 @@ export default function ModalNewPost() {
       toast.success("Post created successfully!", {
         toastId: "success",
       });
+      refreshTable();
       setOpen(false);
     } catch (error: any) {
       toast.error(error?.response?.data?.message, {

@@ -4,7 +4,12 @@ import { useToast } from "../hooks/useToast";
 import { Post } from "../interfaces/services";
 import editPost from "../services/patch/editPost";
 
-export default function ModalEditPost({ post }: { post: Post }) {
+interface ModalProps {
+  refreshTable: () => void;
+  post: Post;
+}
+
+export default function ModalEditPost({ post, refreshTable }: ModalProps) {
   const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef(null);
   const { toast } = useToast();
@@ -20,6 +25,7 @@ export default function ModalEditPost({ post }: { post: Post }) {
       toast.success("Post updated successfully!", {
         toastId: "success",
       });
+      refreshTable();
       setOpen(false);
     } catch (error: any) {
       toast.error(error?.response?.data?.message, {
