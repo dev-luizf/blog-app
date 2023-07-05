@@ -80,6 +80,8 @@
     "testEnvironment": "node"
   },
   "prisma": {
-    "schema": "./database/schema.prisma"
+    "schema": "./database/schema.prisma",
+    "seed": "ts-node src/prisma/seed.ts"
   }
+  
 }
