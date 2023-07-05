@@ -9,6 +9,7 @@ async function bootstrap() {
   const prismaService = app.get(PrismaService);
   await prismaService.enableShutdownHooks(app);
   const port = process.env.PORT || 3001;
+  app.enableCors();
 
   const config = new DocumentBuilder()
     .setTitle('Blog API')
