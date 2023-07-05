@@ -4,7 +4,7 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  baseURL: 'http://localhost:3001',
+  baseURL: 'https://prod-blog-api.up.railway.app/',
 });
 
 api.interceptors.request.use((request) => {
