@@ -1,10 +1,11 @@
-import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import './global.css';
-import Auth from './pages/Auth';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./global.css";
+import Auth from "./pages/Auth";
+import { ToastProvider } from "./hooks/useToast";
 
 function App() {
   return (
+    <ToastProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Auth />} />
@@ -12,6 +13,7 @@ function App() {
           {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>
       </BrowserRouter>
+    </ToastProvider>
   );
 }
 

@@ -1,20 +1,42 @@
 import { ChangeEvent, useState } from "react";
+import login from "../services/post/login";
+import { useToast } from "../hooks/useToast";
+import { saveToLocalStorage } from "../utils/localStorageHelper";
+import createUser from "../services/post/register";
+import { useNavigate } from "react-router-dom";
 
 function Auth() {
+  const { toast } = useToast();
+  const navigate = useNavigate();
   const [register, setRegister] = useState(false);
-  const [data, setData] = useState({
+  const [credentials, setCredentials] = useState({
     username: "",
     password: "",
   });
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setData({ ...data, [name]: value });
+    setCredentials({ ...credentials, [name]: value });
   };
 
-  const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(data);
+    try {
+      let token: string;
+      if (register) {
+        const { data } = await createUser(credentials);
+        token = data.access_token;
+      } else {
+        const { data } = await login(credentials);
+        token = data.access_token;
+      }
+      saveToLocalStorage("token", token);
+      navigate("/admin-panel");
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message, {
+        toastId: "login-error",
+      });
+    }
   };
 
   return (
@@ -46,7 +68,7 @@ function Auth() {
                   name="username"
                   type="text"
                   autoComplete="username"
-                  value={data.username}
+                  value={credentials.username}
                   onChange={handleChange}
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -67,7 +89,7 @@ function Auth() {
                   id="password"
                   name="password"
                   type="password"
-                  value={data.password}
+                  value={credentials.password}
                   onChange={handleChange}
                   autoComplete="current-password"
                   required
@@ -87,7 +109,7 @@ function Auth() {
             {register && (
               <div>
                 <button
-                  type="submit"
+                  type="button"
                   onClick={() => setRegister(false)}
                   className="flex w-full justify-center rounded-md bg-white px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm hover:bg-gray-50 ring-1 ring-inset ring-gray-300"
                 >
