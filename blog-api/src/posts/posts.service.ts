@@ -13,13 +13,34 @@ export class PostsService {
     });
   }
 
-  findAll() {
-    return this.prisma.post.findMany();
+  async findAll() {
+    const posts = await this.prisma.post.findMany({
+      include: { 
+        author: {
+          select: {
+            username: true,
+          }
+        }
+       },
+       orderBy: {
+          createdAt: 'desc',
+       }
+    });
+    return posts.map((post) => {
+      const { author, ...rest } = post;
+      return {
+        ...rest,
+        author: author.username,
+      };
+    })
   }
 
   async findByAuthor(authorId: number) {
     return this.prisma.post.findMany({
       where: { authorId },
+      orderBy: {
+        createdAt: 'desc',
+      }
     });
   }
 
