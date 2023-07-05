@@ -36,8 +36,12 @@ export class PostsController {
   }
 
   @Get('/me')
-  myPosts(@Req() req: any) {
-    return this.postsService.findByAuthor(req.user.sub);
+  async myPosts(@Req() req: any) {
+    const posts = await this.postsService.findByAuthor(req.user.userId);
+    return posts.map((post) => ({
+      ...post,
+      author: req.user.username,
+    }));
   }
 
   @Get(':id')
