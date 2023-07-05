@@ -25,6 +25,15 @@ services:
       - db
     networks:
       - postgres
+
+  front:
+    build: 
+      context: ./blog-ui
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    depends_on:
+      - api
  
 networks:
   postgres:
