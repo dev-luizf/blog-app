@@ -111,7 +111,7 @@ function Auth() {
                 <button
                   type="button"
                   onClick={() => setRegister(false)}
-                  className="flex w-full justify-center rounded-md bg-white px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-50 ring-1 ring-inset ring-gray-300"
+                  className="flex w-full justify-center rounded-md bg-gray-200 px-3 py-1.5 text-sm font-semibold leading-6 text-black shadow-sm hover:bg-gray-50 ring-1 ring-inset ring-gray-300"
                 >
                   Back
                 </button>
