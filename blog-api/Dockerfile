@@ -21,5 +21,6 @@ COPY --from=builder /app/database ./database
 USER node
 
 EXPOSE 3001
+RUN chown -R node:node node_modules/.prisma
  
 CMD ["npm", "run", "start:prod"]
