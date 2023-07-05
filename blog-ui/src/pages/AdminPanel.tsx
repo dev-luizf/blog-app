@@ -48,9 +48,9 @@ function AdminPanel() {
             <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">
               Check out the last posts of the blog..
             </p>
+          <ModalNewPost />
           </div>
 
-          <ModalNewPost />
         </div>
 
         <div className="mt-6 md:flex md:items-center md:justify-between">
