@@ -25,9 +25,10 @@ export class PostsController {
   }
 
   @Post()
-  create(@Body() createPostDto: CreatePostDto) {
-    joiValidate(createPostSchema, CreatePostDto);
-    return this.postsService.create(createPostDto);
+  create(@Body() createPostDto: CreatePostDto, @Req() req: any) {
+    const data = { ...createPostDto, authorId: req.user.userId };
+    joiValidate(createPostSchema, data);
+    return this.postsService.create(data);
   }
 
   @Get()
