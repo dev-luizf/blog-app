@@ -18,7 +18,7 @@ COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/database ./database
  
-RUN chmod 777 ./node_modules/.prisma/client/index.js
+RUN chown -R node:node node_modules/.prisma
 USER node
 
 EXPOSE 3001
