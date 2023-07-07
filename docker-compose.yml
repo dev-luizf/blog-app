@@ -10,7 +10,12 @@ services:
     ports:
       - "5433:5432"
     env_file:
-      - ./blog-api/.env
+      - .env
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
  
   api:
     build: 
@@ -18,11 +23,16 @@ services:
       dockerfile: Dockerfile
     container_name: api
     env_file:
-      - ./blog-api/.env
+      - .env
     ports:
       - "3001:3001"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "lsof", "-t", "-i:3001"]
+      timeout: 10s
+      retries: 3
     networks:
       - postgres
 
@@ -30,10 +40,18 @@ services:
     build: 
       context: ./blog-ui
       dockerfile: Dockerfile
+    container_name: front
     ports:
       - '3000:3000'
     depends_on:
-      - api
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "lsof", "-t", "-i:3000"]
+      timeout: 10s
+      retries: 3
+    env_file:
+      - .env
  
 networks:
   postgres:
